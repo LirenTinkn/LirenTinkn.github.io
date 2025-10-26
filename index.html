@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>我的酷炫网站</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			background: linear-gradient(135deg, #667eea, #764ba2);
+			color: white;
+			font-family: Arial;
+			text-align: center;
+			padding: 50px;
+			margin: 0;
+			min-height: 100vh;
+			transition: all 0.5s ease;
+			position: relative;
+			overflow-x: hidden;
+		}
+
+		.header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			padding: 20px 50px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			z-index: 100;
+		}
+
+		.logo {
+			font-size: 24px;
+			font-weight: bold;
+		}
+
+		.nav-buttons {
+			display: flex;
+			gap: 15px;
+		}
+
+		.nav-btn {
+			background: rgba(255, 255, 255, 0.2);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			color: white;
+			padding: 8px 20px;
+			border-radius: 20px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			text-decoration: none;
+			font-size: 14px;
+		}
+
+		.nav-btn:hover {
+			background: rgba(255, 255, 255, 0.3);
+			transform: translateY(-2px);
+		}
+
+		.glass-box {
+			background: rgba(255,255,255,0.2);
+			backdrop-filter: blur(10px);
+			padding: 30px;
+			border-radius: 15px;
+			margin: 80px auto 20px;
+			max-width: 500px;
+			border: 1px solid rgba(255,255,255,0.3);
+			transition: transform 0.5s ease, opacity 0.5s ease;
+		}
+
+		button {
+			background: rgba(255,255,255,0.3);
+			border: none;
+			padding: 12px 25px;
+			color: white;
+			border-radius: 25px;
+			font-size: 16px;
+			cursor: pointer;
+			margin: 10px;
+			transition: all 0.3s ease;
+		}
+
+		button:hover {
+			background: rgba(255,255,255,0.4);
+			transform: translateY(-2px);
+		}
+
+		.login-page {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(45deg, #667eea, #764ba2);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 200;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.6s ease;
+		}
+
+		.login-page.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.login-container {
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(15px);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			border-radius: 20px;
+			padding: 40px;
+			width: 400px;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+			transform: scale(0.9) translateY(50px);
+			opacity: 0;
+			transition: all 0.6s ease 0.2s;
+			margin: 0 auto; /* 居中登录容器 */
+		}
+
+		.login-page.active .login-container {
+			transform: scale(1) translateY(0);
+			opacity: 1;
+		}
+
+		.login-title {
+			color: white;
+			text-align: center;
+			margin-bottom: 30px;
+			font-size: 28px;
+			font-weight: 300;
+		}
+
+		.input-group {
+			margin-bottom: 20px;
+			position: relative;
+		}
+
+		.input-group input {
+			width: 100%;
+			padding: 15px 20px;
+			background: rgba(255, 255, 255, 0.1);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			border-radius: 10px;
+			color: white;
+			font-size: 16px;
+			outline: none;
+			transition: all 0.3s ease;
+		}
+
+		.input-group input::placeholder {
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		.input-group input:focus {
+			background: rgba(255, 255, 255, 0.15);
+			border-color: rgba(255, 255, 255, 0.5);
+		}
+
+		.login-btn {
+			width: 100%;
+			padding: 15px;
+			background: rgba(255, 255, 255, 0.2);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			border-radius: 10px;
+			color: white;
+			font-size: 16px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			margin-top: 10px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.login-btn:hover {
+			background: rgba(255, 255, 255, 0.3);
+			transform: translateY(-2px);
+		}
+
+		.login-links {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 20px;
+		}
+
+		.login-links a {
+			color: rgba(255, 255, 255, 0.8);
+			text-decoration: none;
+			font-size: 14px;
+			transition: color 0.3s ease;
+		}
+
+		.login-links a:hover {
+			color: white;
+			text-decoration: underline;
+		}
+
+		.close-login {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			background: rgba(255, 255, 255, 0.2);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			color: white;
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			cursor: pointer;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 20px;
+			transition: all 0.3s ease;
+		}
+
+		.close-login:hover {
+			background: rgba(255, 255, 255, 0.3);
+			transform: rotate(90deg);
+		}
+
+		.bg-blob {
+			position: absolute;
+			width: 300px;
+			height: 300px;
+			border-radius: 50%;
+			filter: blur(60px);
+			opacity: 0.6;
+			z-index: -1;
+		}
+
+		.blob1 {
+			background: #ff9a9e;
+			top: 10%;
+			left: 10%;
+			animation: float 8s infinite ease-in-out;
+		}
+
+		.blob2 {
+			background: #a8edea;
+			bottom: 10%;
+			right: 10%;
+			animation: float 10s infinite ease-in-out;
+		}
+
+		@keyframes float {
+			0%, 100% { transform: translateY(0) rotate(0deg); }
+			50% { transform: translateY(-20px) rotate(180deg); }
+		}
+
+		.custom-modal {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			backdrop-filter: blur(10px);
+			z-index: 1000; /* 提高z-index确保在最前面 */
+			justify-content: center;
+			align-items: center;
+		}
+
+		.custom-modal.active {
+			display: flex;
+		}
+
+		.modal-content {
+			background: rgba(255, 255, 255, 0.15);
+			backdrop-filter: blur(20px);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			border-radius: 20px;
+			padding: 40px;
+			max-width: 400px;
+			width: 90%;
+			text-align: center;
+			box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+			animation: modalAppear 0.4s ease-out;
+		}
+
+		@keyframes modalAppear {
+			from {
+				opacity: 0;
+				transform: scale(0.8) translateY(-20px);
+			}
+			to {
+				opacity: 1;
+				transform: scale(1) translateY(0);
+			}
+		}
+
+		.modal-buttons {
+			margin-top: 25px;
+		}
+
+		.modal-btn {
+			background: rgba(255, 255, 255, 0.25);
+			border: 1px solid rgba(255, 255, 255, 0.4);
+			color: white;
+			padding: 10px 25px;
+			border-radius: 25px;
+			cursor: pointer;
+			margin: 0 10px;
+			font-size: 14px;
+			transition: all 0.3s ease;
+		}
+
+		.modal-btn:hover {
+			background: rgba(255, 255, 255, 0.35);
+			transform: translateY(-2px);
+		}
+
+		body.no-scroll {
+			overflow: hidden;
+		}
+
+		.loading-spinner {
+			display: none;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 40px;
+			height: 40px;
+			border: 3px solid rgba(255, 255, 255, 0.3);
+			border-top: 3px solid white;
+			border-radius: 50%;
+			animation: spin 1s linear infinite;
+		}
+
+		@keyframes spin {
+			0% { transform: translate(-50%, -50%) rotate(0deg); }
+			100% { transform: translate(-50%, -50%) rotate(360deg); }
+		}
+
+		.about-page {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(45deg, #667eea, #764ba2);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 200;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.6s ease;
+		}
+
+		.about-page.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.about-container {
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(15px);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			border-radius: 20px;
+			padding: 40px;
+			width: 600px;
+			max-height: 80vh;
+			overflow-y: auto;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+			transform: scale(0.9) translateY(50px);
+			opacity: 0;
+			transition: all 0.6s ease 0.2s;
+		}
+
+		.about-page.active .about-container {
+			transform: scale(1) translateY(0);
+			opacity: 1;
+		}
+
+		.about-title {
+			color: white;
+			text-align: center;
+			margin-bottom: 30px;
+			font-size: 28px;
+			font-weight: 300;
+		}
+
+		.story-text {
+			color: white;
+			line-height: 1.8;
+			text-align: left;
+			font-size: 16px;
+		}
+
+		.story-text span {
+			transition: all 0.3s ease;
+		}
+
+		.story-text span:hover {
+			text-shadow: 0 0 10px currentColor;
+			transform: scale(1.1);
+		}
+
+		.color-1 { color: #ff9a9e; }
+		.color-2 { color: #a8edea; }
+		.color-3 { color: #ffd93d; }
+		.color-4 { color: #6bcf7f; }
+		.color-5 { color: #4facfe; }
+		.color-6 { color: #f093fb; }
+		.color-7 { color: #ff6b6b; }
+		.color-8 { color: #5ee7df; }
+
+		/* 新增样式 */
+		.forgot-password-page, .register-page {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(45deg, #667eea, #764ba2);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 200;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.6s ease;
+		}
+
+		.forgot-password-page.active, .register-page.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.forgot-password-container, .register-container {
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(15px);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			border-radius: 20px;
+			padding: 40px;
+			width: 400px;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+			transform: scale(0.9) translateY(50px);
+			opacity: 0;
+			transition: all 0.6s ease 0.2s;
+			margin: 0 auto; /* 居中容器 */
+		}
+
+		.forgot-password-page.active .forgot-password-container,
+		.register-page.active .register-container {
+			transform: scale(1) translateY(0);
+			opacity: 1;
+		}
+
+		.dashboard-page {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: #f5f7fa;
+			color: #333;
+			z-index: 500;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.6s ease;
+			overflow-y: auto;
+		}
+
+		.dashboard-page.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.dashboard-header {
+			background: white;
+			padding: 15px 30px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.dashboard-logo {
+			font-size: 24px;
+			font-weight: bold;
+			color: #667eea;
+		}
+
+		.dashboard-nav {
+			display: flex;
+			gap: 20px;
+			margin-right: auto; /* 让导航栏靠左 */
+			margin-left: 40px; /* 添加左边距 */
+		}
+
+		.dashboard-nav a {
+			color: #555;
+			text-decoration: none;
+			font-weight: 500;
+			transition: color 0.3s ease;
+		}
+
+		.dashboard-nav a:hover {
+			color: #667eea;
+		}
+
+		.dashboard-user {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			margin-left: auto; /* 确保用户信息靠右 */
+			position: relative;
+		}
+
+		.user-avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			background: #667eea;
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: bold;
+			cursor: pointer;
+		}
+
+		.user-dropdown {
+			position: absolute;
+			top: 100%;
+			right: 0;
+			background: white;
+			border-radius: 8px;
+			box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+			padding: 10px 0;
+			min-width: 150px;
+			opacity: 0;
+			visibility: hidden;
+			transform: translateY(-10px);
+			transition: all 0.3s ease;
+			z-index: 10;
+		}
+
+		.user-dropdown.active {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+
+		.user-dropdown-item {
+			padding: 10px 20px;
+			color: #333;
+			text-decoration: none;
+			display: block;
+			text-align: left;
+			transition: background 0.2s ease;
+			cursor: pointer;
+		}
+
+		.user-dropdown-item:hover {
+			background: #f5f7fa;
+		}
+
+		.user-dropdown-item.logout {
+			color: #e74c3c;
+			border-top: 1px solid #eee;
+		}
+
+		.dashboard-content {
+			padding: 30px;
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		.dashboard-welcome {
+			margin-bottom: 30px;
+		}
+
+		.dashboard-welcome h1 {
+			font-size: 32px;
+			margin-bottom: 10px;
+			color: #333;
+		}
+
+		.dashboard-welcome p {
+			color: #666;
+			font-size: 18px;
+		}
+
+		.dashboard-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+			gap: 25px;
+			margin-top: 30px;
+		}
+
+		.dashboard-card {
+			background: white;
+			border-radius: 10px;
+			padding: 25px;
+			box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.dashboard-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+		}
+
+		.dashboard-card h3 {
+			font-size: 18px;
+			margin-bottom: 15px;
+			color: #333;
+		}
+
+		.dashboard-card p {
+			color: #666;
+			line-height: 1.6;
+		}
+
+		.dashboard-card-icon {
+			font-size: 24px;
+			margin-bottom: 15px;
+			color: #667eea;
+		}
+
+		.dashboard-footer {
+			text-align: center;
+			padding: 20px;
+			margin-top: 50px;
+			color: #888;
+			border-top: 1px solid #eee;
+		}
+
+		.progress-bar {
+			width: 100%;
+			height: 4px;
+			background: rgba(255, 255, 255, 0.2);
+			border-radius: 2px;
+			overflow: hidden;
+			margin-top: 20px;
+		}
+
+		.progress-fill {
+			height: 100%;
+			background: white;
+			width: 0%;
+			transition: width 2s ease;
+		}
+
+		.success-message {
+			background: rgba(107, 207, 127, 0.2);
+			border: 1px solid rgba(107, 207, 127, 0.5);
+			padding: 15px;
+			border-radius: 10px;
+			margin-top: 20px;
+			display: none;
+		}
+
+		.success-message.active {
+			display: block;
+		}
+
+		.guest-login-btn {
+			background: rgba(255, 255, 255, 0.15);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			color: white;
+			padding: 12px 25px;
+			border-radius: 25px;
+			font-size: 16px;
+			cursor: pointer;
+			margin: 10px 0;
+			transition: all 0.3s ease;
+			width: 100%;
+		}
+
+		.guest-login-btn:hover {
+			background: rgba(255, 255, 255, 0.25);
+			transform: translateY(-2px);
+		}
+
+		.login-divider {
+			display: flex;
+			align-items: center;
+			margin: 20px 0;
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		.login-divider::before,
+		.login-divider::after {
+			content: "";
+			flex: 1;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+		}
+
+		.login-divider span {
+			padding: 0 15px;
+			font-size: 14px;
+		}
+
+		/* 修复输入框对齐问题 */
+		.input-group {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.input-group input {
+			width: 100%;
+			max-width: 320px; /* 限制输入框最大宽度 */
+		}
+
+		/* 防止点击企业首页底部触发其他事件 */
+		.dashboard-page * {
+			pointer-events: auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">我的酷站</div>
+		<div class="nav-buttons">
+			<a href="#" class="nav-btn">首页</a>
+			<a href="#" class="nav-btn" onclick="showAboutPage()">关于</a>
+			<a href="#" class="nav-btn" onclick="showLoginPage()">登录</a>
+		</div>
+	</div>
+
+	<div class="bg-blob blob1"></div>
+	<div class="bg-blob blob2"></div>
+
+	<div class="glass-box">
+		<h1>🎉 我的第一个酷炫网站！</h1>
+		<p>这个有模糊透光效果哦！</p>
+		<button onclick="showCustomModal()">点我弹窗（新版本）</button>
+		<button onclick="showMessage()">点我弹窗（旧版本）</button>
+		<button onclick="changeColor()">点我变色</button>
+	</div>
+
+	<div style="height: 1000px; padding: 20px;">
+		<p>往下滚动看看...</p>
+		<div style="margin-top: 500px;">
+			<p>🎯 测试滚动的内容</p>
+			<p>打开弹窗时，这个应该不能滚动！</p>
+		</div>
+	</div>
+
+	<!-- 登录页面 -->
+	<div class="login-page" id="loginPage">
+		<div class="login-container">
+			<div class="close-login" onclick="closeLoginPage()">×</div>
+			<h2 class="login-title">欢迎登录</h2>
+			
+			<form id="loginForm">
+				<div class="input-group">
+					<input type="text" placeholder="用户名或邮箱" required>
+				</div>
+				
+				<div class="input-group">
+					<input type="password" placeholder="密码" required>
+				</div>
+				
+				<button type="submit" class="login-btn" id="loginSubmit">
+					<span>登录</span>
+					<div class="loading-spinner" id="loginSpinner"></div>
+				</button>
+				
+				<div class="login-divider">
+					<span>或</span>
+				</div>
+				
+				<button type="button" class="guest-login-btn" onclick="guestLogin()">
+					游客体验
+				</button>
+				
+				<div class="login-links">
+					<a href="#" onclick="showForgotPasswordPage()">忘记密码？</a>
+					<a href="#" onclick="showRegisterPage()">注册账号</a>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- 忘记密码页面 -->
+	<div class="forgot-password-page" id="forgotPasswordPage">
+		<div class="forgot-password-container">
+			<div class="close-login" onclick="closeForgotPasswordPage()">×</div>
+			<h2 class="login-title">重置密码</h2>
+			
+			<form id="forgotPasswordForm">
+				<div class="input-group">
+					<input type="email" placeholder="请输入您的邮箱" required>
+				</div>
+				
+				<button type="submit" class="login-btn" id="forgotPasswordSubmit">
+					<span>发送重置链接</span>
+					<div class="loading-spinner" id="forgotPasswordSpinner"></div>
+				</button>
+				
+				<div class="success-message" id="forgotPasswordSuccess">
+					重置链接已发送到您的邮箱，请查收！
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- 注册页面 -->
+	<div class="register-page" id="registerPage">
+		<div class="register-container">
+			<div class="close-login" onclick="closeRegisterPage()">×</div>
+			<h2 class="login-title">注册账号</h2>
+			
+			<form id="registerForm">
+				<div class="input-group">
+					<input type="text" placeholder="用户名" required>
+				</div>
+				
+				<div class="input-group">
+					<input type="email" placeholder="邮箱" required>
+				</div>
+				
+				<div class="input-group">
+					<input type="password" placeholder="密码" required>
+				</div>
+				
+				<div class="input-group">
+					<input type="password" placeholder="确认密码" required>
+				</div>
+				
+				<button type="submit" class="login-btn" id="registerSubmit">
+					<span>注册</span>
+					<div class="loading-spinner" id="registerSpinner"></div>
+				</button>
+				
+				<div class="success-message" id="registerSuccess">
+					注册成功！请前往邮箱验证您的账号。
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- 关于页面 -->
+	<div class="about-page" id="aboutPage">
+		<div class="about-container">
+			<div class="close-login" onclick="closeAboutPage()">×</div>
+			<h2 class="about-title">关于我们</h2>
+			<div class="story-text">
+				<p>在<span class="color-1">遥远</span>的<span class="color-2">数字王国</span>里，住着一位年轻的<span class="color-3">程序员</span>。他每天面对着<span class="color-4">闪烁的屏幕</span>，敲击着<span class="color-5">神秘的代码</span>，梦想着创造出一个<span class="color-6">完美的世界</span>。</p>
+				
+				<p>有一天，他在<span class="color-7">深夜</span>的编程中，偶然发现了一个<span class="color-8">神奇的算法</span>。这个算法能够让<span class="color-1">网页</span>拥有<span class="color-2">生命</span>，让<span class="color-3">按钮</span>学会<span class="color-4">跳舞</span>，让<span class="color-5">文字</span>变成<span class="color-6">彩虹</span>。</p>
+				
+				<p>于是，他开始了<span class="color-7">漫长</span>的创作之旅。他用<span class="color-8">CSS</span>绘制出<span class="color-1">绚丽的动画</span>，用<span class="color-2">JavaScript</span>赋予页面<span class="color-3">灵魂</span>，用<span class="color-4">HTML</span>搭建起<span class="color-5">梦想的框架</span>。</p>
+				
+				<p>经过<span class="color-6">无数个</span>不眠之夜，这个<span class="color-7">酷炫的网站</span>终于诞生了。它有着<span class="color-8">玻璃般</span>的质感，<span class="color-1">流光溢彩</span>的效果，还有那些<span class="color-2">会呼吸</span>的交互元素。</p>
+				
+				<p>现在，这个<span class="color-3">神奇的世界</span>就在你的眼前。每一个<span class="color-4">点击</span>都会带来<span class="color-5">惊喜</span>，每一次<span class="color-6">交互</span>都是一次<span class="color-7">冒险</span>。欢迎来到这个由<span class="color-8">代码编织</span>的梦幻世界！</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- 仪表盘页面 -->
+	<div class="dashboard-page" id="dashboardPage">
+		<div class="dashboard-header">
+			<div class="dashboard-logo">TechCorp Dashboard</div>
+			<div class="dashboard-nav">
+				<a href="#">首页</a>
+				<a href="#">分析</a>
+				<a href="#">报告</a>
+				<a href="#">设置</a>
+			</div>
+			<div class="dashboard-user">
+				<div class="user-avatar" id="userAvatar" onclick="toggleUserDropdown()">U</div>
+				<span id="userName">用户</span>
+				<div class="user-dropdown" id="userDropdown">
+					<div class="user-dropdown-item">个人资料</div>
+					<div class="user-dropdown-item">账户设置</div>
+					<div class="user-dropdown-item logout" onclick="logout()">退出账号</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="dashboard-content">
+			<div class="dashboard-welcome">
+				<h1 id="welcomeMessage">欢迎回来！</h1>
+				<p>这是您的个人仪表盘，您可以在这里查看重要信息和统计数据。</p>
+			</div>
+			
+			<div class="dashboard-grid">
+				<div class="dashboard-card">
+					<div class="dashboard-card-icon">📊</div>
+					<h3>数据分析</h3>
+					<p>查看您的业务数据和关键指标，了解最新趋势和表现。</p>
+				</div>
+				
+				<div class="dashboard-card">
+					<div class="dashboard-card-icon">📈</div>
+					<h3>业绩报告</h3>
+					<p>生成详细的业绩报告，帮助您做出更明智的决策。</p>
+				</div>
+				
+				<div class="dashboard-card">
+					<div class="dashboard-card-icon">🔔</div>
+					<h3>通知中心</h3>
+					<p>查看最新的系统通知和重要更新。</p>
+				</div>
+				
+				<div class="dashboard-card">
+					<div class="dashboard-card-icon">⚙️</div>
+					<h3>系统设置</h3>
+					<p>管理您的账户设置和系统偏好。</p>
+				</div>
+				
+				<div class="dashboard-card">
+					<div class="dashboard-card-icon">👥</div>
+					<h3>团队协作</h3>
+					<p>与团队成员协作，共享文件和项目进度。</p>
+				</div>
+				
+				<div class="dashboard-card">
+					<div class="dashboard-card-icon">💳</div>
+					<h3>账单管理</h3>
+					<p>查看和管理您的订阅和账单信息。</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="dashboard-footer">
+			<p>© 2023 TechCorp 企业解决方案 - 保留所有权利</p>
+		</div>
+	</div>
+
+	<!-- 弹窗 -->
+	<div class="custom-modal" id="customModal">
+		<div class="modal-content">
+			<h2>✨ 漂亮的弹窗！</h2>
+			<p>这个弹窗有模糊透光效果，而且背景被固定住了！</p>
+			<p>试试看，现在不能滚动背景了！</p>
+			<div class="modal-buttons">
+				<button class="modal-btn" onclick="closeCustomModal()">确定</button>
+				<button class="modal-btn" onclick="closeCustomModal()">取消</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// 页面状态管理
+		let currentPage = 'home';
+		
+		// 页面加载时恢复状态
+		window.addEventListener('load', function() {
+			const savedPage = localStorage.getItem('currentPage');
+			if (savedPage === 'dashboard') {
+				showDashboardPage();
+			}
+		});
+		
+		// 页面刷新或调整大小时保存状态
+		window.addEventListener('beforeunload', function() {
+			localStorage.setItem('currentPage', currentPage);
+		});
+		
+		// 横竖屏切换时保持状态
+		window.addEventListener('resize', function() {
+			// 不执行任何操作，只是防止页面跳转
+		});
+
+		// 用户下拉菜单
+		function toggleUserDropdown() {
+			const dropdown = document.getElementById('userDropdown');
+			dropdown.classList.toggle('active');
+		}
+
+		// 关闭用户下拉菜单（点击其他地方时）
+		document.addEventListener('click', function(e) {
+			const dropdown = document.getElementById('userDropdown');
+			const avatar = document.getElementById('userAvatar');
+			
+			if (dropdown.classList.contains('active') && 
+				e.target !== dropdown && 
+				e.target !== avatar && 
+				!dropdown.contains(e.target)) {
+				dropdown.classList.remove('active');
+			}
+		});
+
+		// 退出账号功能
+		function logout() {
+			// 关闭下拉菜单
+			document.getElementById('userDropdown').classList.remove('active');
+			
+			// 显示退出确认弹窗
+			const modal = document.getElementById('customModal');
+			const modalContent = modal.querySelector('.modal-content');
+			
+			modalContent.innerHTML = `
+				<h2>🔒 确认退出</h2>
+				<p>您确定要退出当前账号吗？</p>
+				<div class="modal-buttons">
+					<button class="modal-btn" onclick="confirmLogout()">确定退出</button>
+					<button class="modal-btn" onclick="closeCustomModal()">取消</button>
+				</div>
+			`;
+			
+			modal.classList.add('active');
+		}
+
+		// 确认退出
+		function confirmLogout() {
+			closeCustomModal();
+			
+			// 显示退出进度
+			const modal = document.getElementById('customModal');
+			const modalContent = modal.querySelector('.modal-content');
+			
+			modalContent.innerHTML = `
+				<h2>👋 正在退出...</h2>
+				<p>感谢使用我们的服务！</p>
+				<div class="progress-bar">
+					<div class="progress-fill" id="logoutProgress"></div>
+				</div>
+			`;
+			
+			modal.classList.add('active');
+			
+			// 进度条动画
+			setTimeout(() => {
+				document.getElementById('logoutProgress').style.width = '100%';
+			}, 100);
+			
+			// 退出到初始页面
+			setTimeout(() => {
+				closeCustomModal();
+				closeDashboardPage();
+				
+				// 重置页面状态
+				currentPage = 'home';
+				localStorage.setItem('currentPage', 'home');
+				
+				// 显示退出成功消息
+				const modal = document.getElementById('customModal');
+				const modalContent = modal.querySelector('.modal-content');
+				
+				modalContent.innerHTML = `
+					<h2>✅ 退出成功</h2>
+					<p>您已成功退出账号！</p>
+					<div class="modal-buttons">
+						<button class="modal-btn" onclick="closeCustomModal()">确定</button>
+					</div>
+				`;
+				
+				modal.classList.add('active');
+			}, 1500);
+		}
+
+		function showMessage() {
+			alert("哇！弹窗出来了！🎊\n这个是系统默认弹窗，没有模糊效果");
+		}
+		
+		function changeColor() {
+			const colors = ["#667eea", "#764ba2", "#f093fb", "#f5576c", "#4facfe", "#5ee7df", "#b490ca"];
+			const randomColor = colors[Math.floor(Math.random() * colors.length)];
+			document.body.style.background = `linear-gradient(135deg, ${randomColor}, #000)`;
+		}
+
+		function showCustomModal() {
+			const modal = document.getElementById('customModal');
+			modal.classList.add('active');
+			document.body.classList.add('no-scroll');
+		}
+
+		function closeCustomModal() {
+			const modal = document.getElementById('customModal');
+			modal.classList.remove('active');
+			document.body.classList.remove('no-scroll');
+		}
+
+		function showLoginPage() {
+			const loginPage = document.getElementById('loginPage');
+			loginPage.classList.add('active');
+			document.body.classList.add('no-scroll');
+			currentPage = 'login';
+		}
+
+		function closeLoginPage() {
+			const loginPage = document.getElementById('loginPage');
+			loginPage.classList.remove('active');
+			document.body.classList.remove('no-scroll');
+			currentPage = 'home';
+		}
+
+		function showForgotPasswordPage() {
+			const forgotPasswordPage = document.getElementById('forgotPasswordPage');
+			forgotPasswordPage.classList.add('active');
+			closeLoginPage();
+			currentPage = 'forgotPassword';
+		}
+
+		function closeForgotPasswordPage() {
+			const forgotPasswordPage = document.getElementById('forgotPasswordPage');
+			forgotPasswordPage.classList.remove('active');
+			currentPage = 'home';
+		}
+
+		function showRegisterPage() {
+			const registerPage = document.getElementById('registerPage');
+			registerPage.classList.add('active');
+			closeLoginPage();
+			currentPage = 'register';
+		}
+
+		function closeRegisterPage() {
+			const registerPage = document.getElementById('registerPage');
+			registerPage.classList.remove('active');
+			currentPage = 'home';
+		}
+
+		function showAboutPage() {
+			const aboutPage = document.getElementById('aboutPage');
+			aboutPage.classList.add('active');
+			document.body.classList.add('no-scroll');
+			currentPage = 'about';
+		}
+
+		function closeAboutPage() {
+			const aboutPage = document.getElementById('aboutPage');
+			aboutPage.classList.remove('active');
+			document.body.classList.remove('no-scroll');
+			currentPage = 'home';
+		}
+
+		function showDashboardPage() {
+			const dashboardPage = document.getElementById('dashboardPage');
+			dashboardPage.classList.add('active');
+			document.body.classList.add('no-scroll');
+			currentPage = 'dashboard';
+		}
+
+		function closeDashboardPage() {
+			const dashboardPage = document.getElementById('dashboardPage');
+			dashboardPage.classList.remove('active');
+			document.body.classList.remove('no-scroll');
+			currentPage = 'home';
+		}
+
+		// 游客登录功能
+		function guestLogin() {
+			const modal = document.getElementById('customModal');
+			const modalContent = modal.querySelector('.modal-content');
+			
+			modalContent.innerHTML = `
+				<h2>🎉 欢迎游客！</h2>
+				<p>您正在以游客身份体验我们的网站。</p>
+				<p>部分功能可能受限，注册后可享受完整功能。</p>
+				<div class="progress-bar">
+					<div class="progress-fill" id="guestProgress"></div>
+				</div>
+			`;
+			
+			modal.classList.add('active');
+			
+			// 进度条动画
+			setTimeout(() => {
+				document.getElementById('guestProgress').style.width = '100%';
+			}, 100);
+			
+			// 跳转到仪表盘
+			setTimeout(() => {
+				closeCustomModal();
+				
+				// 设置游客信息
+				document.getElementById('userName').textContent = '游客';
+				document.getElementById('userAvatar').textContent = 'G';
+				document.getElementById('welcomeMessage').textContent = '欢迎，游客！';
+				
+				showDashboardPage();
+			}, 2000);
+		}
+
+		// 登录表单提交
+		document.getElementById('loginForm').addEventListener('submit', function(e) {
+			e.preventDefault();
+			
+			const submitBtn = document.getElementById('loginSubmit');
+			const spinner = document.getElementById('loginSpinner');
+			const btnText = submitBtn.querySelector('span');
+			
+			btnText.style.opacity = '0';
+			spinner.style.display = 'block';
+			submitBtn.disabled = true;
+			
+			// 模拟登录过程
+			setTimeout(() => {
+				closeLoginPage();
+				
+				// 显示进度条动画
+				const progressBar = document.createElement('div');
+				progressBar.className = 'progress-bar';
+				const progressFill = document.createElement('div');
+				progressFill.className = 'progress-fill';
+				progressBar.appendChild(progressFill);
+				
+				const modal = document.getElementById('customModal');
+				const modalContent = modal.querySelector('.modal-content');
+				
+				modalContent.innerHTML = `
+					<h2>✨ 登录成功！</h2>
+					<p>正在为您跳转到仪表盘...</p>
+				`;
+				modalContent.appendChild(progressBar);
+				
+				modal.classList.add('active');
+				
+				// 进度条动画
+				setTimeout(() => {
+					progressFill.style.width = '100%';
+				}, 100);
+				
+				// 跳转到仪表盘
+				setTimeout(() => {
+					closeCustomModal();
+					showDashboardPage();
+					
+					btnText.style.opacity = '1';
+					spinner.style.display = 'none';
+					submitBtn.disabled = false;
+				}, 2000);
+				
+			}, 1500);
+		});
+
+		// 忘记密码表单提交
+		document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+			e.preventDefault();
+			
+			const submitBtn = document.getElementById('forgotPasswordSubmit');
+			const spinner = document.getElementById('forgotPasswordSpinner');
+			const btnText = submitBtn.querySelector('span');
+			const successMessage = document.getElementById('forgotPasswordSuccess');
+			
+			btnText.style.opacity = '0';
+			spinner.style.display = 'block';
+			submitBtn.disabled = true;
+			
+			// 模拟发送邮件过程
+			setTimeout(() => {
+				successMessage.classList.add('active');
+				
+				btnText.style.opacity = '1';
+				spinner.style.display = 'none';
+				submitBtn.disabled = false;
+				
+				// 3秒后关闭页面
+				setTimeout(() => {
+					closeForgotPasswordPage();
+					successMessage.classList.remove('active');
+				}, 3000);
+				
+			}, 1500);
+		});
+
+		// 注册表单提交
+		document.getElementById('registerForm').addEventListener('submit', function(e) {
+			e.preventDefault();
+			
+			const submitBtn = document.getElementById('registerSubmit');
+			const spinner = document.getElementById('registerSpinner');
+			const btnText = submitBtn.querySelector('span');
+			const successMessage = document.getElementById('registerSuccess');
+			
+			btnText.style.opacity = '0';
+			spinner.style.display = 'block';
+			submitBtn.disabled = true;
+			
+			// 模拟注册过程
+			setTimeout(() => {
+				successMessage.classList.add('active');
+				
+				btnText.style.opacity = '1';
+				spinner.style.display = 'none';
+				submitBtn.disabled = false;
+				
+				// 3秒后关闭页面
+				setTimeout(() => {
+					closeRegisterPage();
+					successMessage.classList.remove('active');
+				}, 3000);
+				
+			}, 1500);
+		});
+
+		document.getElementById('customModal').addEventListener('click', function(e) {
+			if (e.target === this) {
+				closeCustomModal();
+			}
+		});
+
+		// 修复企业首页点击底部跳转问题
+		document.getElementById('dashboardPage').addEventListener('click', function(e) {
+			// 阻止点击企业首页时触发底层页面的点击事件
+			e.stopPropagation();
+		});
+
+		document.getElementById('loginPage').addEventListener('click', function(e) {
+			if (e.target === this) {
+				closeLoginPage();
+			}
+		});
+
+		document.getElementById('forgotPasswordPage').addEventListener('click', function(e) {
+			if (e.target === this) {
+				closeForgotPasswordPage();
+			}
+		});
+
+		document.getElementById('registerPage').addEventListener('click', function(e) {
+			if (e.target === this) {
+				closeRegisterPage();
+			}
+		});
+
+		document.getElementById('aboutPage').addEventListener('click', function(e) {
+			if (e.target === this) {
+				closeAboutPage();
+			}
+		});
+
+		document.addEventListener('keydown', function(e) {
+			if (e.key === 'Escape') {
+				closeCustomModal();
+				closeLoginPage();
+				closeForgotPasswordPage();
+				closeRegisterPage();
+				closeAboutPage();
+				// 不关闭企业首页，因为企业首页是主要页面
+			}
+		});
+
+		const storyText = document.querySelector('.story-text');
+		const words = storyText.textContent.split(' ');
+		storyText.innerHTML = '';
+		
+		words.forEach(word => {
+			const span = document.createElement('span');
+			span.textContent = word + ' ';
+			
+			// 随机分配颜色类
+			const colorClasses = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5', 'color-6', 'color-7', 'color-8'];
+			const randomColorClass = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+			span.classList.add(randomColorClass);
+			
+			storyText.appendChild(span);
+		});
+	</script>
+</body>
+</html>
